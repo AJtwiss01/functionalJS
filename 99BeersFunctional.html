@@ -1,0 +1,52 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="output"></div>
+<!-- Load Babel -->
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<!-- Your custom script here -->
+<script type="text/babel">
+const getMessage = () => "99 bottles of beer on the wall";
+document.getElementById('output').innerHTML = getMessage();
+
+function lyricSegment(n) {
+    return _.chain([])
+      .push(n + " bottles of beer on the wall")
+      .push(n + " bottles of beer")
+      .push("Take one down, pass it around")
+      .tap(function(lyrics) {
+             if (n > 1)
+               lyrics.push((n - 1) + " bottles of beer on the wall.");
+             else
+               lyrics.push("No more bottles of beer on the wall!");
+           })
+      .value();
+  }
+
+
+
+console.log(lyricSegment(9))
+
+
+function song(start, end, lyricGen) {
+  return _.reduce(_.range(start,end,-1),
+    function(acc,n) {
+      return acc.concat(lyricGen(n));
+    }, []);
+}
+
+console.log(song(99, 0, lyricSegment))
+
+</script>
+</body>
+</html>
